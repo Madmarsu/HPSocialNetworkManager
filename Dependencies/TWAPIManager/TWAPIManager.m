@@ -47,14 +47,7 @@ typedef void(^TWAPIHandler)(NSData *data, NSError *error);
  */
 + (BOOL)isLocalTwitterAccountAvailable
 {
-    //  checks to see if we have Social.framework
-    if ([SLComposeViewController class]) {
-        return [SLComposeViewController
-                isAvailableForServiceType:SLServiceTypeTwitter];
-    }
-    else {
-        return [TWTweetComposeViewController canSendTweet];
-    }
+    return [SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter];
 }
 
 /**
@@ -73,19 +66,7 @@ typedef void(^TWAPIHandler)(NSData *data, NSError *error);
     NSParameterAssert(dict);
     NSParameterAssert(requestMethod);
 
-    if ([SLRequest class]) {
-        return (id<GenericTwitterRequest>)
-        [SLRequest requestForServiceType:SLServiceTypeTwitter
-                           requestMethod:requestMethod
-                                     URL:url
-                              parameters:dict];
-    }
-    else {
-        return (id<GenericTwitterRequest>)
-        [[TWRequest alloc] initWithURL:url
-                            parameters:dict
-                         requestMethod:requestMethod];
-    }
+    return (id<GenericTwitterRequest>)[SLRequest requestForServiceType:SLServiceTypeTwitter requestMethod:requestMethod URL:url parameters:dict];
 }
 
 /**

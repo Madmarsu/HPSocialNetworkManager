@@ -289,6 +289,11 @@
 				CLASSPREFIX = HP;
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = Hipo;
+				TargetAttributes = {
+					75B2874E166CCED100E2C3F1 = {
+						DevelopmentTeam = 8NQFWJHC63;
+					};
+				};
 			};
 			buildConfigurationList = 75B28749166CCED100E2C3F1 /* Build configuration list for PBXProject "HPSocialNetworkManager" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -385,7 +390,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-all_load",
@@ -409,7 +414,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = (
 					"-all_load",
@@ -423,6 +428,7 @@
 		75B28774166CCED100E2C3F1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Simon Stovring (5NFBEYLWJ8)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Dependencies\"",
@@ -431,6 +437,7 @@
 				GCC_PREFIX_HEADER = "Support/HPSocialNetworkManager-Prefix.pch";
 				INFOPLIST_FILE = "Support/HPSocialNetworkManager-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "B0D69D31-05B5-4580-889B-6592CCA63D33";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -438,6 +445,7 @@
 		75B28775166CCED100E2C3F1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Simon Stovring (5NFBEYLWJ8)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Dependencies\"",
@@ -446,6 +454,7 @@
 				GCC_PREFIX_HEADER = "Support/HPSocialNetworkManager-Prefix.pch";
 				INFOPLIST_FILE = "Support/HPSocialNetworkManager-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "B0D69D31-05B5-4580-889B-6592CCA63D33";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

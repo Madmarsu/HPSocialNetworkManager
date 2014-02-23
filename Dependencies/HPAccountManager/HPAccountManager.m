@@ -11,6 +11,7 @@
 
 #import "HPAccountManager.h"
 
+static void *HPOperationQueue = &HPOperationQueue;
 
 static NSString * const HPAccountManagerErrorDomain = @"com.hipo.HPSocialNetworkManager.authError";
 static NSString * const HPAccountManagerTwitterVerifyURL = @"http://api.twitter.com/1/account/verify_credentials.json";
@@ -68,6 +69,8 @@ static NSString * const HPAccountManagerTwitterUsernameKey = @"twitterUsername";
                                                  selector:@selector(didReceiveApplicationDidBecomeActiveNotification:)
                                                      name:UIApplicationDidBecomeActiveNotification
                                                    object:[UIApplication sharedApplication]];
+        
+        dispatch_queue_set_specific(dispatch_get_main_queue(), &HPOperationQueue, &HPOperationQueue, NULL);
     }
     
     return self;
@@ -209,11 +212,9 @@ static NSString * const HPAccountManagerTwitterUsernameKey = @"twitterUsername";
             [self openFacebookSession];
         };
         
-        if (dispatch_get_current_queue() == dispatch_get_main_queue()) {
+        dispatch_async(dispatch_get_main_queue(), ^{
             completionBlock();
-        } else {
-            dispatch_sync(dispatch_get_main_queue(), completionBlock);
-        }
+        });
     };
     
     if ([_accountStore respondsToSelector:@selector(requestAccessToAccountsWithType:options:completion:)]) {
@@ -321,21 +322,12 @@ static NSString * const HPAccountManagerTwitterUsernameKey = @"twitterUsername";
             [self checkSystemTwitterAccountsAgainstUsername:self.twitterUsername];
         };
         
-        if (dispatch_get_current_queue() == dispatch_get_main_queue()) {
+        dispatch_async(dispatch_get_main_queue(), ^{
             completionBlock();
-        } else {
-            dispatch_sync(dispatch_get_main_queue(), completionBlock);
-        }
+        });
     };
     
-    if ([_accountStore respondsToSelector:@selector(requestAccessToAccountsWithType:options:completion:)]) {
-        [_accountStore requestAccessToAccountsWithType:twitterAccountType
-                                               options:nil
-                                            completion:completionHandler];
-    } else {
-        [_accountStore requestAccessToAccountsWithType:twitterAccountType
-                                 withCompletionHandler:completionHandler];
-    }
+    [_accountStore requestAccessToAccountsWithType:twitterAccountType options:nil completion:completionHandler];
 }
 
 - (void)checkSystemTwitterAccountsAgainstUsername:(NSString *)username {
@@ -405,11 +397,9 @@ static NSString * const HPAccountManagerTwitterUsernameKey = @"twitterUsername";
             [actionSheet release];
         };
         
-        if (dispatch_get_current_queue() == dispatch_get_main_queue()) {
+        dispatch_async(dispatch_get_main_queue(), ^{
             completionBlock();
-        } else {
-            dispatch_sync(dispatch_get_main_queue(), completionBlock);
-        }
+        });
     }
 }
 
@@ -464,9 +454,7 @@ static NSString * const HPAccountManagerTwitterUsernameKey = @"twitterUsername";
 }
 
 - (void)fetchDetailsForTwitterAccount:(ACAccount *)twitterAccount {
-    TWRequest *request = [[TWRequest alloc] initWithURL:[NSURL URLWithString:HPAccountManagerTwitterVerifyURL]
-                                             parameters:nil
-                                          requestMethod:TWRequestMethodGET];
+    SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeTwitter requestMethod:SLRequestMethodGET URL:[NSURL URLWithString:HPAccountManagerTwitterVerifyURL] parameters:nil];
 
     [request setAccount:twitterAccount];
     [request performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
@@ -550,11 +538,9 @@ static NSString * const HPAccountManagerTwitterUsernameKey = @"twitterUsername";
         [_authHandler release], _authHandler = nil;
     };
     
-    if (dispatch_get_current_queue() == dispatch_get_main_queue()) {
+    dispatch_async(dispatch_get_main_queue(), ^{
         completionBlock();
-    } else {
-        dispatch_sync(dispatch_get_main_queue(), completionBlock);
-    }
+    });
 }
 
 #pragma mark - URL handling
